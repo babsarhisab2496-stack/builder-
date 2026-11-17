@@ -15,6 +15,9 @@ jobs:
         with:
           gradle-version: 8.11.1
       - run: unzip -q "$(ls *.zip | head -n1)" -d proj
+      - name: Fix kotlin
+        run: |
+          sed -i "s|^dependencies{|dependencies{\nimplementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.22')|" proj/app/build.gradle
       - working-directory: proj
         run: gradle assembleRelease
       - uses: actions/upload-artifact@v4
